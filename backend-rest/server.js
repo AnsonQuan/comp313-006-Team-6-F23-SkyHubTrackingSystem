@@ -1,20 +1,33 @@
-// The server.js file is the main file of your Node.js application
-// It will load the express.js file as a module to bootstrap your Express application
-//
-//The process.env.NODE_ENV variable is set to the default 'development‘
-//value if itdoesn 't exist.
+// Load the module dependencies
+const mongoose = require("mongoose");
+const express = require("./config/express");
+
 // Set the 'NODE_ENV' variable
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
-// Load the module dependencies
-var mongoose = require("./config/mongoose"),
-  express = require("./config/express");
+
+// MongoDB URI
+const mongodbURI = "YOUR_MONGODB_URI";
+
 // Create a new Mongoose connection instance
-var db = mongoose();
-// Create a new Express application instance
-var app = express();
-// Use the Express application instance to listen to the '3000' port
-app.listen(5000);
-// Use the module.exports property to expose our Express application instance for external usage
-module.exports = app; //returns the application object
-// Log the server status to the console
-console.log("Server running at http://localhost:5000/");
+mongoose
+  .connect(mongodbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => {
+    console.log("MongoDB connected successfully");
+    // Create a new Express application instance
+    const app = express();
+
+    // Define the port to listen on
+    const port = process.env.PORT || 5000;
+
+    // Use the Express application instance to listen on the defined port
+    app.listen(port, () => {
+      console.log(`Server running at http://localhost:${port}/`);
+    });
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
