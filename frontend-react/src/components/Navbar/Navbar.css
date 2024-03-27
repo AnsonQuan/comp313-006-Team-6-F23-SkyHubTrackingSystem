@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #007bff; 
+    background-color: #0099cc; 
     padding: 1rem 0;
     width: 100%;
     position: fixed; 
@@ -15,11 +15,28 @@
     margin: 0 auto;
     padding: 0 1rem;
   }
+
+  .login-item {
+    position: absolute;
+    right: 0; 
+    top: 0;
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin-top: 21.5px;
+    padding: 0 1rem;
+    color: #ffffff; 
+  }
   
   .logo {
     color: white;
     font-size: 1.5rem;
     font-weight: bold;
+  }
+
+  .logo:hover {
+    color: #bdbdbd;
+    transition: 0.5s ease;
   }
   
   .nav-links {
@@ -32,8 +49,35 @@
     text-decoration: none;
     margin-right: 1rem;
     display: inline-block;
+    transition: background-color 0.3s ease;
   }
-  
+
+  .nav-links a.dropdown-arrow:after {
+    content: "\25BE";
+    margin-left: 5px;
+  }
+
+  .nav-links a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #f2f2f2;
+    transition: width 0.5s;
+    position: absolute;
+    bottom: -1px; 
+    left: 0;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%; 
+  }
+
+  .nav-links a:hover {
+    color: #f2f2f2;
+    text-decoration: none; 
+  }
+
   .menu-icon {
     color: white;
     font-size: 1.5rem;

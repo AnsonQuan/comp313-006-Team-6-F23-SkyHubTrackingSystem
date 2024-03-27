@@ -18,8 +18,7 @@ const Navbar = () => {
         <div className={`nav-links ${showMenu ? 'active' : ''}`}>
           <Link to="/about"><FontAwesomeIcon icon={faInfoCircle} /> About</Link> 
           <Link to="/contact"><FontAwesomeIcon icon={faPhone} /> Contact</Link>
-          <Link to="/login"><FontAwesomeIcon icon={faSignInAlt} /> Login</Link>
-          <Link to="/register"><FontAwesomeIcon icon={faUserPlus} /> Register</Link>
+          <Link class="login-item" to="/login"><FontAwesomeIcon icon={faSignInAlt} /> Login</Link>
           <Link to="/review"><FontAwesomeIcon icon={faStar} /> Review</Link>
           <Link to="/track"><FontAwesomeIcon icon={faPlane} /> Track</Link>
         </div>
