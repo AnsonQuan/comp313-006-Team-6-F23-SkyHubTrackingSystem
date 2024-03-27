@@ -1,33 +1,38 @@
-// Load the module dependencies
-const mongoose = require("mongoose");
-const express = require("./config/express");
-
 // Set the 'NODE_ENV' variable
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-// MongoDB URI
-const mongodbURI = "YOUR_MONGODB_URI";
+// Load the module dependencies
+const configureMongoose = require("./config/mongoose");
+const configureExpress = require("./config/express");
+//
+const { graphqlHTTP } = require("express-graphql");
+var schema = require("./graphql/schemas/customer.schema.js");
+var cors = require("cors");
 
 // Create a new Mongoose connection instance
-mongoose
-  .connect(mongodbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => {
-    console.log("MongoDB connected successfully");
-    // Create a new Express application instance
-    const app = express();
+const db = configureMongoose();
 
-    // Define the port to listen on
-    const port = process.env.PORT || 5000;
+// Create a new Express application instance
+const app = configureExpress();
 
-    // Use the Express application instance to listen on the defined port
-    app.listen(port, () => {
-      console.log(`Server running at http://localhost:${port}/`);
-    });
+//configure GraphQL to use over HTTP
+app.use("*", cors());
+app.use(
+  "/graphql",
+  cors(),
+  graphqlHTTP({
+    schema: schema,
+    rootValue: global,
+    graphiql: true,
   })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
-  });
+);
+//
+// Use the Express application instance to listen to the '4000' port
+app.listen(4000, () =>
+  console.log(
+    "Express GraphQL Server Now Running On http://localhost:4000/graphql"
+  )
+);
+
+// Use the module.exports property to expose our Express application instance for external usage
+module.exports = app;

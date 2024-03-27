@@ -1,7 +1,7 @@
-//Development configuration options
-//To sign the session identifier, use a secret string
+// Set the 'development' environment configuration object
+const dotenv = require("dotenv");
+dotenv.config();
 module.exports = {
   db: process.env.MONGODB_URI,
   sessionSecret: "developmentSessionSecret",
-  secretKey: "real_secret",
 };
