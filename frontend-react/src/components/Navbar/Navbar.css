@@ -33,6 +33,11 @@
     font-size: 1.5rem;
     font-weight: bold;
   }
+
+  .logo:hover {
+    color: #bdbdbd;
+    transition: 0.5s ease;
+  }
   
   .nav-links {
     display: flex;
