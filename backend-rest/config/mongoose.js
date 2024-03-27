@@ -1,7 +1,7 @@
-// Load the module dependencies:
-//  config.js module and mongoose module
-var config = require("./config"),
-  mongoose = require("mongoose");
+// Load the module dependencies
+const config = require("./config");
+const mongoose = require("mongoose");
+
 // Define the Mongoose configuration method
 module.exports = function () {
   // Use Mongoose to connect to MongoDB
@@ -9,17 +9,17 @@ module.exports = function () {
     .connect(config.db, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
-      useCreateIndex: true,
     })
     .then(() => console.log("DB Connected!"))
     .catch((err) => {
-      console.log("Error");
+      console.log("Error:" + err);
     });
 
-  // Load the 'User' model
-  //require("../app/models/user.server.model");
-  // Load the 'Course' model
-  //require("../app/models/course.server.model");
+  // Load the application models
+  require("../graphql/models/user");
+  require("../graphql/models/review");
+  require("../graphql/models/customerSupport");
+
   // Return the Mongoose connection instance
   return db;
 };
