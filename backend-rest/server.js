@@ -15,15 +15,25 @@ const db = configureMongoose();
 // Create a new Express application instance
 const app = configureExpress();
 
-//configure GraphQL to use over HTTP
-app.use("*", cors());
+// Configure CORS options
+const corsOptions = {
+  origin: ["http://127.0.0.1:3000"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+// Configure GraphQL endpoint
 app.use(
   "/graphql",
-  cors(),
-  graphqlHTTP({
-    schema: schema,
-    rootValue: global,
-    graphiql: true,
+  graphqlHTTP((request, response) => {
+    return {
+      schema: schema,
+      rootValue: global,
+      graphiql: true,
+      context: {
+        req: request,
+        res: response,
+      },
+    };
   })
 );
 //
