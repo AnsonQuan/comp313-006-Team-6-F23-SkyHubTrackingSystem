@@ -7,13 +7,38 @@ const JWT_SECRET = "jwt_secret_key";
 const jwtExpirySeconds = 300;
 
 //Registers a user
-const addUser = async (root, params) => {
-  const userModel = new user(params);
-  const newUser = await userModel.save();
-  if (!newUser) {
-    throw new Error("Error");
+const addUser = async (_, { firstName, lastName, email, password, address, phoneNumber, role }) => {
+  try {
+    // Check if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      throw new Error('User already exists with this email');
+    }
+
+    // Hash password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create new user
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      address,
+      phoneNumber,
+      role,
+    });
+
+    // Save user to database
+    const savedUser = await newUser.save();
+
+    // Optionally, handle the login token here if you want to auto-login users after registration
+
+    return savedUser;
+  } catch (error) {
+    throw new Error('Error creating user: ' + error.message);
   }
-  return newUser;
 };
 
 const getUsers = async () => {

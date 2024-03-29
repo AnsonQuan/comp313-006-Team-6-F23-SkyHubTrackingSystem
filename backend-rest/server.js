@@ -9,6 +9,14 @@ const { graphqlHTTP } = require("express-graphql");
 var schema = require("./graphql/schemas/customer.schema.js");
 var cors = require("cors");
 
+require('dotenv').config();
+
+// CORS Options, adjust according to your needs
+const corsOptions = {
+  origin: 'http://localhost:3000', 
+  optionsSuccessStatus: 200 
+};
+
 // Create a new Mongoose connection instance
 const db = configureMongoose();
 
