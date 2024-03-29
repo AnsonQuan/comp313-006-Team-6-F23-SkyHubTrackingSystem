@@ -16,10 +16,11 @@ const db = configureMongoose();
 const app = configureExpress();
 
 //configure GraphQL to use over HTTP
-app.use("*", cors());
+
+app.use("*", cors(corsOptions));
 app.use(
   "/graphql",
-  cors(),
+  cors(corsOptions),
   graphqlHTTP({
     schema: schema,
     rootValue: global,

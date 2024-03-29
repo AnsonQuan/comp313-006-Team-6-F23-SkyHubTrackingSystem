@@ -7,6 +7,7 @@ var GraphQLID = require("graphql").GraphQLID;
 var GraphQLString = require("graphql").GraphQLString;
 var GraphQLInt = require("graphql").GraphQLInt;
 var GraphQLFloat = require("graphql").GraphQLFloat;
+var GraphQLBoolean = require('graphql').GraphQLBoolean;
 
 // Import models
 var user = require("../models/user");
@@ -125,6 +126,16 @@ var queryType = new GraphQLObjectType({
         },
         resolve: userResolver.getUserById,
       },
+      isLoggedIn:{
+        type:GraphQLBoolean,
+        args:{
+          email:{
+            name:"email",
+            type:GraphQLString,
+          },
+        },
+        resolve: userResolver.isLoggedIn,
+      },
       reviews: {
         type: new GraphQLList(reviewType),
         resolve: reviewResolver.getReviews,
@@ -174,6 +185,18 @@ var mutation = new GraphQLObjectType({
           },
         },
         resolve: userResolver.addUser,
+      },
+      login: {
+        type: GraphQLBoolean,
+        args: {
+          email: {type: GraphQLString},
+          password: {type: GraphQLString}
+        },
+        resolve: userResolver.login
+      },
+      logout: {
+        type:GraphQLBoolean,
+        resolve: userResolver.logout
       },
       addReview: {
         type: reviewType,
