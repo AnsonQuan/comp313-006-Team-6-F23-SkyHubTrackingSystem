@@ -7,55 +7,113 @@ body {
     justify-content: center; 
     align-items: center; 
     min-height: 100vh; 
+    padding-top: 50px; 
 }
 
-.about-us-container {
-    max-width: 800px;
+.card-container {
+    height: 450px;
+    margin: 0;
+    padding: 0;
+    top: 20px;
+    width: 450px; 
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    transform-style: preserve-3d;
+    box-sizing: border-box;
+
+}
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    border-radius: 10px;
+}
+
+
+.card-container.flipped .front {
+    transform: rotateY(180deg);
+}
+
+.card-container.flipped .back {
+    transform: rotateY(0deg);
+}
+
+.front,
+.back {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: block;
+    background: #0099cc;
+    box-shadow: 10px 10px 5px rgb(95, 77, 99);
+    padding: 10px;
+    position: absolute;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: -webkit-transform ease 500ms;
+    transition: transform ease 500ms;
+}
+
+.front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.back {
+    background: #0099cc;
+    transform: rotateY(-180deg);
     padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    font-size: 20px;
 }
 
-h1, h2 {
-    color: #007bff;
+.image-container {
+    position: relative;
 }
 
-p {
-    margin-bottom: 15px;
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center; 
+    border-radius: 10px;
 }
 
-ul {
-    list-style-type: square;
-    margin-left: 20px;
-}
 
-.team {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin-top: 30px;
-}
-
-.team-member {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.team-member img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.title {
+    font-size: 34px;
+    position: absolute;
     margin-bottom: 10px;
+    margin-left: 10px;
+    bottom: 0;
+    left: 0;
+    color: #ffffff;
 }
 
-.team-member h3 {
-    color: #007bff;
-    margin-bottom: 5px;
+.about-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px; 
 }
 
-.team-member p {
-    color: #666;
-    font-style: italic;
+.card-row {
+    display: flex;
+    gap: 40px; 
+    margin-bottom: 20px; 
 }
 
+.card {
+    margin-bottom: 20px; 
+    flex-grow: 1; 
+}
+
+.card-row .card:last-child {
+    margin-right: 0; 
+}
+
+.navbar {
+
+    z-index: 1000; 
+}
