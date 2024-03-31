@@ -65,34 +65,27 @@ const updateUser = async (root, params) => {
   return updatedUser;
 };
 
-const login = async (root, params, context) => {
-  const userInfo = await User.findOne({email: params.email}).exec();
-  if (!userInfo){
-    console.error('User not found for email: ', params.email);
-    return false; // Authentication failed
+const login = async (root, { email, password }, context) => {
+  console.log(`User logging in with email: ${email}`);
+  
+  const user = await User.findOne({ email }).exec();
+  if (!user) {
+    console.error('User not found for email: ', email);
+    return { success: false, message: 'User not found' }; // Use an appropriate error message
   }
-  try {
-  // check if the password is correct
-  const isValidPassword = await userInfo.comparePassword(params.password.trim());
-  if(!isValidPassword){
-    console.error('Invalid password');
-    return false; // Authentication failed
-  }
-  // Inside your login function, after successful authentication
-  const token = jwt.sign
-  ({ _id: userInfo._id, email: userInfo.email }, 
-    "jwt_secret_key",
-  { algorithm: 'HS256', expiresIn: jwtExpirySeconds });
 
+  const isValidPassword = await user.comparePassword(password);
+  if (!isValidPassword) {
+    console.error('Invalid password for email: ', email);
+    return { success: false, message: 'Invalid password' }; // Use an appropriate error message
+  }
+
+  const token = jwt.sign({ _id: user._id, email: user.email }, JWT_SECRET, { expiresIn: jwtExpirySeconds });
   console.log('Generated token: ', token);
-  context.res.cookie('token', token, { maxAge: 300 * 1000, httpOnly: true });
-  // Return both success status and the user's name
-  return { success: true, name: userInfo.firstName }; // Assuming the user has a firstName field
 
-  } catch (error){
-    console.error('Authentication failed: ', error);
-    return false;
-  }
+  context.res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000, httpOnly: true });
+
+  return { success: true, firstName: user.firstName };
 };
 
 const logout = (root, params, context) => {

@@ -54,7 +54,7 @@ userSchema.pre("save", async function (next) {
 });
 
 // Method to compare passwords for authentication - modified by Dahye
-userSchema.methods.comparePassword = function (candidatePassword) {
+/*userSchema.methods.comparePassword = function (candidatePassword) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(candidatePassword, this.password, (error, isMatch) => {
       if (error) {
@@ -63,6 +63,10 @@ userSchema.methods.comparePassword = function (candidatePassword) {
       resolve(isMatch);
     });
   });
+};*/
+userSchema.methods.comparePassword = function(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
 };
+
 
 module.exports = mongoose.model("User", userSchema);

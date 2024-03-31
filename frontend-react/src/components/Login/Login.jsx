@@ -29,26 +29,29 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
+    console.log(`Attempting to log in with email: ${email} and password: ${password}`);
+  
     try {
       const { data } = await loginUser({
         variables: { email, password }
       });
-
+      console.log('Login response:', data);
+  
       if (data.login.success) {
         setScreen(true);
-        // Store the user's name for displaying
         localStorage.setItem('firstName', data.login.firstName);
         await refetchLoggedInData();
-        // Redirect to the homepage
         history.push('/');
       } else {
-        console.log('Login failed');
+        console.error('Login failed: ', data);
+        // Consider showing an error message to the user here
       }
     } catch (error) {
-      console.log('Login error: ', error);
+      console.error('Login error: ', error);
+      // Consider showing an error message to the user here
     }
   };
+  
 
   const handleLogout = () => {
     // Clear user session, e.g., remove user's name
