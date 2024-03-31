@@ -78,15 +78,17 @@ const login = async (root, params, context) => {
     console.error('Invalid password');
     return false; // Authentication failed
   }
-    const token = jwt.sign(
-      { _id: userInfo._id, email : userInfo.email},
-      "jwt_secret_key",
-      {algorithm:'HS256', expiresIn:jwtExpirySeconds}
-    );
+  // Inside your login function, after successful authentication
+  const token = jwt.sign
+  ({ _id: userInfo._id, email: userInfo.email }, 
+    "jwt_secret_key",
+  { algorithm: 'HS256', expiresIn: jwtExpirySeconds });
 
-    console.log('Generated token: ', token);
-    context.res.cookie('token', token, {maxAge: 300 * 1000, httpOnly: true});
-    return true; // Authentication successful
+  console.log('Generated token: ', token);
+  context.res.cookie('token', token, { maxAge: 300 * 1000, httpOnly: true });
+  // Return both success status and the user's name
+  return { success: true, name: userInfo.firstName }; // Assuming the user has a firstName field
+
   } catch (error){
     console.error('Authentication failed: ', error);
     return false;

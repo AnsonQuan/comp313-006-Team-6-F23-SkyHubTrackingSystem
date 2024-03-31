@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import './Login.css'; 
 import {gql, useQuery, useMutation} from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 // Mutation for User Login
 const LOGIN_USER = gql`
-  mutation Login($email: String!, $password: String!){
-    login(email:$email, password:$password)
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      success
+      firstName
+    }
   }
 `;
 
@@ -17,31 +21,53 @@ const LOGGED_IN_USER = gql`
 `;
 
 const Login = () => {
-  const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER);
+  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
   const [screen, setScreen] = useState(false);
-  
+  const history = useHistory(); // For redirecting
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
 
-  const handleLogin = async (event) =>{
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('email and password: ', email + ' ' + password);
 
     try {
-      const {data} = await loginUser({
-        variables: {email, password}
+      const { data } = await loginUser({
+        variables: { email, password }
       });
 
-      console.log('data from server: ', data);
-      console.log('Logged in as: ', data.loginUser);
-      setScreen(data.loginUser);
-      setEmail('');
-      setPassword('');
-      console.log('screen: ', screen);
+      if (data.login.success) {
+        setScreen(true);
+        // Store the user's name for displaying
+        localStorage.setItem('firstName', data.login.firstName);
+        await refetchLoggedInData();
+        // Redirect to the homepage
+        history.push('/');
+      } else {
+        console.log('Login failed');
+      }
     } catch (error) {
       console.log('Login error: ', error);
     }
   };
+
+  const handleLogout = () => {
+    // Clear user session, e.g., remove user's name
+    localStorage.removeItem('firstName');
+    // Implement your logout logic here, like clearing cookies or tokens
+    // Redirect to homepage or login page
+    history.push('/login');
+  };
+
+  if (screen) {
+    // If logged in, display user's name and logout button
+    const userName = localStorage.getItem('firstName');
+    return (
+      <div className="user-greeting">
+        <h2>Hello, {userName}</h2>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+    );
+  }
 
   const {data: isLoggedInData, loading: isLoggedInLoading, error: isLoggedInError, refetch: refetchLoggedInData} = useQuery(LOGGED_IN_USER);
     // useEffect block
