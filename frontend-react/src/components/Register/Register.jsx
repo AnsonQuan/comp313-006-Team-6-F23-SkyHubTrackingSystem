@@ -28,7 +28,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('user'); // default value is 'user'
   const [showLoading, setShowLoading] = useState(false);
   
   const history = useHistory(); // For redirection
@@ -56,7 +56,8 @@ const Register = () => {
     setPhoneNumber('');
     setEmail('');
     setPassword('');
-    setRole('');
+    setConfirmPassword('');
+    setRole('user'); // default value is 'user'
     setShowLoading(false);
   }
 

@@ -1,4 +1,4 @@
-const user = require("../models/user");
+const User = require("../models/user");
 // Import dependencies
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -42,7 +42,7 @@ const addUser = async (_, { firstName, lastName, email, password, address, phone
 };
 
 const getUsers = async () => {
-  const users = await user.find().exec();
+  const users = await User.find().exec();
   if (!users) {
     throw new Error("Error");
   }
@@ -50,7 +50,7 @@ const getUsers = async () => {
 };
 
 const getUserById = async (root, params) => {
-  const userFound = await user.findById(params.id).exec();
+  const userFound = await User.findById(params.id).exec();
   if (!userFound) {
     throw new Error("Error");
   }
@@ -58,7 +58,7 @@ const getUserById = async (root, params) => {
 };
 
 const updateUser = async (root, params) => {
-  const updatedUser = await user.findByIdAndUpdate(params.id, params).exec();
+  const updatedUser = await User.findByIdAndUpdate(params.id, params).exec();
   if (!updatedUser) {
     throw new Error("Error");
   }
@@ -66,7 +66,7 @@ const updateUser = async (root, params) => {
 };
 
 const login = async (root, params, context) => {
-  const userInfo = await user.findOne({email: params.email}).exec();
+  const userInfo = await User.findOne({email: params.email}).exec();
   if (!userInfo){
     console.error('User not found for email: ', params.email);
     return false; // Authentication failed
