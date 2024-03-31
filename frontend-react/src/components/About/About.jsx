@@ -28,12 +28,18 @@ const About = () => {
     text={
         <>
         
-            <ul>
-                <li>User Experience Enhancement</li>
-                <li>Real-Time Flight Schedule Tracking</li>
-                <li>Analytics and Reporting</li>
-                <li>Cutting-Edge Technologies</li>
-            </ul>
+           <ul>
+                                <li>User Experience Enhancement</li>
+                                <li>Real-Time Flight Schedule Tracking</li>
+                                <li>Analytics and Reporting</li>
+                                <li>Cutting-Edge Technologies</li>
+                                <li>Comprehensive Search and Filtering Options</li>
+                                <li>Secure Payment Processing</li>
+                                <li>Reliable Booking Management System</li>
+                                <li>Efficient Customer Support</li>
+                                <li>Integration with Global Airlines and Providers</li>
+                                <li>Personalized Travel Recommendations</li>
+          </ul>
         </>
     }
 />
