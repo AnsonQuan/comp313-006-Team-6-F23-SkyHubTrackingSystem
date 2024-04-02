@@ -1,0 +1,90 @@
+.contact-container {
+  max-width: 95%;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-container h2 {
+  text-align: center;
+  color: #007bff;
+}
+
+.form-group {
+  margin-bottom: 30px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: calc(100% - 30px); 
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #333; 
+
+}
+
+textarea {
+  resize: vertical;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+
+@media screen and (min-width: 576px) {
+  .contact-container {
+    max-width: 80%; 
+    padding: 50px; 
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .contact-container {
+    max-width: 90%; 
+    padding: 60px; 
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .contact-container {
+    max-width: 800px; 
+    padding: 80px; 
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: calc(100% - 40px); 
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .contact-container {
+    max-width: 900px; 
+    padding: 100px; 
+  }
+}
+

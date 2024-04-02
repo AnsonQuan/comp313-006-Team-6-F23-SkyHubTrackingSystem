@@ -1,0 +1,96 @@
+.login-container {
+    max-width: 95%;
+    margin: 40px auto;
+    padding: 40px 20px; 
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-container h2 {
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .form-group {
+    margin-bottom: 20px; 
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: calc(100% - 30px);
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  .login-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .register-link {
+    text-align: center;
+  }
+  
+  .register-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  @media screen and (min-width: 576px) {
+    .login-container {
+      max-width: 80%;
+      padding: 50px;
+    }
+  }
+  
+  @media screen and (min-width: 768px) {
+    .login-container {
+      max-width: 90%;
+      padding: 60px;
+    }
+  }
+  
+  @media screen and (min-width: 992px) {
+    .login-container {
+      max-width: 800px;
+      padding: 80px;
+    }
+  }
+  
+  @media screen and (min-width: 1200px) {
+    .login-container {
+      max-width: 900px;
+      padding: 100px;
+    }
+  
+    input[type="text"],
+    input[type="password"] {
+      width: calc(100% - 40px);
+    }
+  }
+  

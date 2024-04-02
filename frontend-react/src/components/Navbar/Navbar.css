@@ -1,0 +1,134 @@
+.navbar {
+    background-color: #0099cc; 
+    padding: 1rem 0;
+    width: 100%;
+    position: fixed; 
+    top: 0; 
+    left: 0;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .login-item {
+    position: absolute;
+    right: 0; 
+    top: 0;
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin-top: 21.5px;
+    padding: 0 1rem;
+    color: #ffffff; 
+  }
+  
+  .logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .logo:hover {
+    color: #bdbdbd;
+    transition: 0.5s ease;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-right: 1rem;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-links a.dropdown-arrow:after {
+    content: "\25BE";
+    margin-left: 5px;
+  }
+
+  .nav-links a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #f2f2f2;
+    transition: width 0.5s;
+    position: absolute;
+    bottom: -1px; 
+    left: 0;
+  }
+
+  .nav-links a:hover::after {
+    width: 100%; 
+  }
+
+  .nav-links a:hover {
+    color: #f2f2f2;
+    text-decoration: none; 
+  }
+
+  .menu-icon {
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  @media (min-width: 769px) {
+    .nav-links {
+      display: flex; 
+    }
+  
+    .menu-icon {
+      display: none; 
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none; 
+      flex-direction: column;
+      position: absolute;
+      top: 4rem; 
+      left: 0;
+      width: 100%;
+      background-color: #007bff;
+      padding: 1rem 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  
+    .nav-links.active {
+      display: flex; 
+    }
+  
+    .menu-icon {
+      display: block; 
+    }
+  }
+
+.logo {
+    display: inline-flex; 
+    align-items: center; 
+  }
+  
+  .logo img {
+    width: 40px; 
+    height: auto; 
+    border-radius: 20%; 
+    margin-right: 8px; 
+  }
+  
+  .logo-text {
+    font-size: 20px; 
+  }

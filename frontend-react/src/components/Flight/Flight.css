@@ -1,0 +1,63 @@
+/* Flight.css */
+
+/* Body Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    color: #333;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    padding-top: 50px; 
+  }
+  
+  /* Flight Page Container */
+  .flight-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px; 
+  }
+  
+  /* Flight Form */
+  .flight-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+  }
+  
+  /* Input Styles */
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* Button Styles */
+  .btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0099cc;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #0077b3;
+  }
+  
+  /* Additional Styles */
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  

@@ -1,0 +1,77 @@
+.track-container {
+    max-width: 95%;
+    margin: 40px auto;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .track-container h2 {
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  input[type="text"] {
+    width: 60%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  .search-button {
+    padding: 15px 30px;
+    margin-left: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  @media screen and (min-width: 576px) {
+    .track-container {
+      max-width: 80%;
+      padding: 50px;
+    }
+  }
+  
+  @media screen and (min-width: 768px) {
+    .track-container {
+      max-width: 90%;
+      padding: 60px;
+    }
+  }
+  
+  @media screen and (min-width: 992px) {
+    .track-container {
+      max-width: 800px;
+      padding: 80px;
+    }
+  
+    input[type="text"] {
+      width: 50%;
+    }
+  }
+  
+  @media screen and (min-width: 1200px) {
+    .track-container {
+      max-width: 900px;
+      padding: 100px;
+    }
+  }
+  
