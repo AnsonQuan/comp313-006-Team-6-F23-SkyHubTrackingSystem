@@ -12,11 +12,13 @@ var GraphQLFloat = require("graphql").GraphQLFloat;
 var user = require("../models/user");
 var review = require("../models/review");
 var support = require("../models/customerSupport");
+var booking = require("../models/booking");
 
 // Import resolvers
 var userResolver = require("../resolvers/user-resolver");
 var reviewResolver = require("../resolvers/review-resolver");
 var supportResolver = require("../resolvers/support-resolver");
+var bookingResolver = require("../resolvers/booking-resolver");
 
 // User Type
 var userType = new GraphQLObjectType({
@@ -103,6 +105,23 @@ var supportType = new GraphQLObjectType({
       },
     };
   },
+});
+
+// Booking Type
+var BookingType = new GraphQLObjectType({
+  name: "Booking",
+  fields: () => ({
+    id: { type: GraphQLID },
+    flightNumber: { type: GraphQLNonNull(GraphQLString) },
+    passengerName: { type: GraphQLNonNull(GraphQLString) },
+    seatNumber: { type: GraphQLNonNull(GraphQLString) },
+    departureAirport: { type: GraphQLNonNull(GraphQLString) },
+    arrivalAirport: { type: GraphQLNonNull(GraphQLString) },
+    departureDate: { type: GraphQLNonNull(GraphQLString) },
+    arrivalDate: { type: GraphQLNonNull(GraphQLString) },
+    ticketPrice: { type: GraphQLNonNull(GraphQLFloat) },
+    status: { type: GraphQLNonNull(GraphQLString) },
+  }),
 });
 
 // define Queries
@@ -210,6 +229,39 @@ var mutation = new GraphQLObjectType({
           },
         },
         resolve: supportResolver.addInquiry,
+      },
+      addBooking: {
+        type: BookingType,
+        args: {
+          flightNumber: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+          passengerName: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+          seatNumber: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+          departureAirport: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+          arrivalAirport: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+          departureDate: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+          arrivalDate: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+          ticketPrice: {
+            type: new GraphQLNonNull(GraphQLFloat),
+          },
+          status: {
+            type: new GraphQLNonNull(GraphQLString),
+          },
+        },
+        resolve: bookingResolver.addBooking,
       },
     };
   },
