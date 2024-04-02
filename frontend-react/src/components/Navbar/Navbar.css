@@ -116,4 +116,19 @@
       display: block; 
     }
   }
+
+.logo {
+    display: inline-flex; 
+    align-items: center; 
+  }
   
+  .logo img {
+    width: 40px; 
+    height: auto; 
+    border-radius: 20%; 
+    margin-right: 8px; 
+  }
+  
+  .logo-text {
+    font-size: 20px; 
+  }

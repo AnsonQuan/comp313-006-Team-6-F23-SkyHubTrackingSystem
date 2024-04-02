@@ -52,7 +52,7 @@ const Review = () => {
                     <Form.Control type="number" value={overallRating} onChange={(e) => setOverallRating(parseInt(e.target.value))} min={1} max={5} />
                 </Form.Group>
                 <Form.Group controlId="formUserReview">
-                    <Form.Label>User Review:</Form.Label>
+                    <Form.Label>Review:</Form.Label>
                     <Form.Control as="textarea" value={userReview} onChange={(e) => setUserReview(e.target.value)} rows={5} />
                 </Form.Group>
                 <Form.Group controlId="formImprovements">
