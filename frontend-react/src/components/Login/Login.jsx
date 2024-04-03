@@ -144,6 +144,7 @@
 import React, {useState, useEffect} from 'react';
 import './Login.css'; 
 import {gql, useQuery, useMutation} from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 // Mutation for User Login
 const LOGIN_USER = gql`
@@ -162,9 +163,20 @@ const LOGGED_IN_USER = gql`
 `;
 
 const Login = () => {
-  const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER);
+  const history = useHistory();
+  const [loginUser] = useMutation(LOGIN_USER, {
+    onCompleted: (data) => {
+      // Store the token in localStorage
+      localStorage.setItem('token', data.login.token);
+      console.log('Login successful, token stored.');
+      history.push('/');
+    },
+    onError: (error) => {
+      console.error('Login error:', error);
+      alert('Login failed: ' + error.message); // Providing feedback to the user
+    }
+  });
   const [screen, setScreen] = useState(false);
-  
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
 
@@ -177,8 +189,6 @@ const Login = () => {
         variables: {email, password}
       });
 
-      console.log('data from server: ', data);
-      console.log('Logged in as: ', data.loginUser);
       setScreen(data.loginUser);
       setEmail('');
       setPassword('');

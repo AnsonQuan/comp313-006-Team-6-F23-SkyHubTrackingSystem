@@ -138,35 +138,48 @@ var queryType = new GraphQLObjectType({
         },
         resolve: userResolver.getUserById,
       },
-      // isLoggedIn:{
-      //   type:GraphQLBoolean,
-      //   args:{
-      //     email:{
-      //       name:"email",
-      //       type:GraphQLString,
+      // isLoggedIn: {
+      //   type: GraphQLBoolean,  // Change the type to Boolean
+      //   args: {
+      //     email: {
+      //       name: 'email',
+      //       type: GraphQLString,
       //     },
       //   },
-      //   resolve: userResolver.isLoggedIn,
+      //   resolve: function (root, params, context) {
+      //     const token = context.req.cookies.token;
+
+      //     // If the cookie is not set, return false
+      //     if (!token) {
+      //       return false;
+      //     }
+
+      //     try {
+      //       // Try to verify the token
+      //       jwt.verify(token, JWT_SECRET);
+      //       return true;  // Token is valid, user is logged in
+      //     } catch (e) {
+      //       // If verification fails, return false
+      //       return false;
+      //     }
+      //   },
       // },
       isLoggedIn: {
         type: GraphQLBoolean,  // Change the type to Boolean
-        args: {
-          email: {
-            name: 'email',
-            type: GraphQLString,
-          },
-        },
-        resolve: function (root, params, context) {
-          const token = context.req.cookies.token;
-
-          // If the cookie is not set, return false
-          if (!token) {
+        resolve: function (_, __, context) {
+          const authHeader = context.req.headers.authorization;
+      
+          // If the Authorization header is not set, return false
+          if (!authHeader) {
             return false;
           }
-
+      
+          // Extract the token from the Authorization header
+          const token = authHeader.split(" ")[1]; // Assumes "Bearer <token>"
+      
+          // Verify the token
           try {
-            // Try to verify the token
-            jwt.verify(token, JWT_SECRET);
+            jwt.verify(token, process.env.JWT_SECRET); // Make sure to use the correct secret
             return true;  // Token is valid, user is logged in
           } catch (e) {
             // If verification fails, return false
@@ -224,18 +237,6 @@ var mutation = new GraphQLObjectType({
         },
         resolve: userResolver.addUser,
       },
-      // login: {
-      //   type: GraphQLBoolean,
-      //   args: {
-      //     email: {type: GraphQLString},
-      //     password: {type: GraphQLString}
-      //   },
-      //   resolve: userResolver.login
-      // },
-      // logout: {
-      //   type:GraphQLBoolean,
-      //   resolve: userResolver.logout
-      // },
       login: {
         type: loginResponseType,
         args: {
