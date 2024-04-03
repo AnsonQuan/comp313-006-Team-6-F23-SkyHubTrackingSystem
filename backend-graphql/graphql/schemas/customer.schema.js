@@ -114,6 +114,7 @@ var loginResponseType = new GraphQLObjectType({
   fields: function() {
     return {
       token : {type: GraphQLString},
+      firstName: { type: GraphQLString } //Anson's changes
     };
   },
 });

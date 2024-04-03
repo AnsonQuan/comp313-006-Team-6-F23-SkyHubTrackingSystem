@@ -1,4 +1,4 @@
-require('dotenv').config(); // Ensure this is at the top of your file
+require('dotenv').config(); 
 
 const User = require("../models/user");
 const bcrypt = require('bcrypt');
@@ -84,13 +84,13 @@ const login = async (_, { email, password }) => {
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: jwtExpirySeconds });
     console.log(`Token for user ${user._id}: ${token}`);
-    return { token };
+    return { token, firstName: user.firstName };
+
   } catch (error) {
     console.error('Login error:', error); // Temporary debugging log
     throw new Error('Authentication failed'); // This is the production-safe message
   }
 };
-
 
 // Logout function
 const logout = async(_, {res}) => {

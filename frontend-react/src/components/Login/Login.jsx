@@ -148,9 +148,10 @@ import { useHistory } from 'react-router-dom';
 
 // Mutation for User Login
 const LOGIN_USER = gql`
-  mutation Login($email: String!, $password: String!){
-    login(email:$email, password:$password){
-      token
+   mutation Login($email: String!, $password: String!){
+    login(email: $email, password: $password) {
+      token 
+      firstName
     }
   }
 `;
@@ -166,16 +167,19 @@ const Login = () => {
   const history = useHistory();
   const [loginUser] = useMutation(LOGIN_USER, {
     onCompleted: (data) => {
-      // Store the token in localStorage
       localStorage.setItem('token', data.login.token);
-      console.log('Login successful, token stored.');
+      // Assuming `data.login.firstName` contains the first name
+      localStorage.setItem('firstName', data.login.firstName); 
+      console.log('Login successful');
       history.push('/');
+      window.location.reload();
     },
     onError: (error) => {
       console.error('Login error:', error);
-      alert('Login failed: ' + error.message); // Providing feedback to the user
+      alert('Login failed: ' + error.message);
     }
   });
+  
   const [screen, setScreen] = useState(false);
   let [email, setEmail] = useState('');
   let [password, setPassword] = useState('');
