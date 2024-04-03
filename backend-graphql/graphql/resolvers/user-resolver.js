@@ -1,9 +1,11 @@
+require('dotenv').config(); // Ensure this is at the top of your file
+
 const User = require("../models/user");
-// Import dependencies
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = "jwt_secret_key"; 
+// Use environment variable for JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET; 
 const jwtExpirySeconds = 300;
 
 //Registers a user
@@ -109,28 +111,57 @@ const updateUser = async (root, params) => {
 
 
 // Login Function
-const login = async (_, {email, password}) => {
+// const login = async (_, {email, password}) => {
+//   try {
+//     // Find user by email
+//     const user = await User.findOne({email});
+//     if (!user) {
+//       throw new Error('User Not Found');
+//     }
+
+//     // Compare passwords
+//     const ValidPassword = await user.comparePassword(password.trim());
+//     if (!ValidPassword){
+//       throw new Error('Invalid password');
+//     }
+
+//     // const JWT token
+//     const token = jwt.sign({userId: user._id}, JWT_SECRET, {expiresIn: jwtExpirySeconds});
+//     console.log(`Token for user ${user._id}: ${token}`);
+//     return {token};
+//   }  catch (error) {
+//     throw new Error('Error logging in: ' + error.message);
+//   }
+// };
+
+const login = async (_, { email, password }) => {
   try {
-    // Find user by email
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email }).exec();
     if (!user) {
-      throw new Error('User Not Found');
+      console.log('User not found for email:', email); // Temporary debugging log
+      throw new Error('User not found'); // Make generic again before production
     }
 
-    // Compare passwords
-    const ValidPassword = await user.comparePassword(password.trim());
-    if (!ValidPassword){
-      throw new Error('Invalid password');
+    const isPasswordMatch = await user.comparePassword(password.trim());
+    if (!isPasswordMatch) {
+      console.log('Invalid password for user:', email); // Temporary debugging log
+      throw new Error('Invalid password'); // Make generic again before production
     }
 
-    // const JWT token
-    const token = jwt.sign({userId: user._id}, JWT_SECRET, {expiresIn: jwtExpirySeconds});
-    console.log(`Token for user ${user._id}: ${token}`);
-    return {token};
-  }  catch (error) {
-    throw new Error('Error logging in: ' + error.message);
+    // Ensure you have JWT_SECRET set in your .env file
+    if (!JWT_SECRET) {
+      console.error('JWT_SECRET is not set');
+      throw new Error('Server configuration error');
+    }
+
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: jwtExpirySeconds });
+    return { token };
+  } catch (error) {
+    console.error('Login error:', error); // Temporary debugging log
+    throw new Error('Authentication failed'); // This is the production-safe message
   }
 };
+
 
 // Logout function
 const logout = async(_, {res}) => {
