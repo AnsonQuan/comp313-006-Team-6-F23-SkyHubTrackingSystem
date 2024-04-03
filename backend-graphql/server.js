@@ -28,13 +28,13 @@ app.use("*", cors(corsOptions));
 app.use(
   "/graphql",
   cors(corsOptions),
-  graphqlHTTP({
+  graphqlHTTP((req, res) => ({
     schema: schema,
     rootValue: global,
     graphiql: true,
-  })
+    context: {req, res}, 
+  }))
 );
-
 // Dynamic port configuration
 const PORT = process.env.PORT || 4000;
 

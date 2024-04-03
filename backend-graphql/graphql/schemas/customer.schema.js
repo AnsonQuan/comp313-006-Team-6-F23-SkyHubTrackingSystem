@@ -8,6 +8,7 @@ var GraphQLString = require("graphql").GraphQLString;
 var GraphQLInt = require("graphql").GraphQLInt;
 var GraphQLFloat = require("graphql").GraphQLFloat;
 var GraphQLBoolean = require('graphql').GraphQLBoolean;
+var jwt = require('jsonwebtoken');
 
 // Import models
 var user = require("../models/user");
@@ -106,6 +107,17 @@ var supportType = new GraphQLObjectType({
   },
 });
 
+
+// Dahye added this 
+var loginResponseType = new GraphQLObjectType({
+  name: "LoginResponse",
+  fields: function() {
+    return {
+      token : {type: GraphQLString},
+    };
+  },
+});
+
 // define Queries
 
 var queryType = new GraphQLObjectType({
@@ -126,15 +138,41 @@ var queryType = new GraphQLObjectType({
         },
         resolve: userResolver.getUserById,
       },
-      isLoggedIn:{
-        type:GraphQLBoolean,
-        args:{
-          email:{
-            name:"email",
-            type:GraphQLString,
+      // isLoggedIn:{
+      //   type:GraphQLBoolean,
+      //   args:{
+      //     email:{
+      //       name:"email",
+      //       type:GraphQLString,
+      //     },
+      //   },
+      //   resolve: userResolver.isLoggedIn,
+      // },
+      isLoggedIn: {
+        type: GraphQLBoolean,  // Change the type to Boolean
+        args: {
+          email: {
+            name: 'email',
+            type: GraphQLString,
           },
         },
-        resolve: userResolver.isLoggedIn,
+        resolve: function (root, params, context) {
+          const token = context.req.cookies.token;
+
+          // If the cookie is not set, return false
+          if (!token) {
+            return false;
+          }
+
+          try {
+            // Try to verify the token
+            jwt.verify(token, JWT_SECRET);
+            return true;  // Token is valid, user is logged in
+          } catch (e) {
+            // If verification fails, return false
+            return false;
+          }
+        },
       },
       reviews: {
         type: new GraphQLList(reviewType),
@@ -186,8 +224,20 @@ var mutation = new GraphQLObjectType({
         },
         resolve: userResolver.addUser,
       },
+      // login: {
+      //   type: GraphQLBoolean,
+      //   args: {
+      //     email: {type: GraphQLString},
+      //     password: {type: GraphQLString}
+      //   },
+      //   resolve: userResolver.login
+      // },
+      // logout: {
+      //   type:GraphQLBoolean,
+      //   resolve: userResolver.logout
+      // },
       login: {
-        type: GraphQLBoolean,
+        type: loginResponseType,
         args: {
           email: {type: GraphQLString},
           password: {type: GraphQLString}
@@ -195,7 +245,7 @@ var mutation = new GraphQLObjectType({
         resolve: userResolver.login
       },
       logout: {
-        type:GraphQLBoolean,
+        type:GraphQLString,
         resolve: userResolver.logout
       },
       addReview: {
