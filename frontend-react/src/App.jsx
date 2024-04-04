@@ -12,6 +12,7 @@ import Footer from './components/Footer/Footer';
 import Booking from './components/Booking/Booking';
 
 import './App.css';
+import SetOrigin from './components/SetOrigin/SetOrigin';
 
 
 
@@ -30,7 +31,7 @@ const App = () => {
             <Route path="/review" element={<Review/>} />
             <Route path="/track" element={<Track/>} />
             <Route path="/booking" element={<Booking/>} />
-
+            <Route path="/set-origin" element={<SetOrigin/>} />
           </Routes>
         </div>
         <Footer />
