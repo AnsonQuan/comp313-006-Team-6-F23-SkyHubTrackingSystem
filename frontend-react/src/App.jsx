@@ -9,6 +9,8 @@ import Register from './components/Register/Register';
 import Review from './components/Review/Review';
 import Track from './components/Track/Track';
 import Footer from './components/Footer/Footer';
+import Booking from './components/Booking/Booking';
+
 import './App.css';
 
 
@@ -27,6 +29,8 @@ const App = () => {
             <Route path="/register" element={<Register/>} />
             <Route path="/review" element={<Review/>} />
             <Route path="/track" element={<Track/>} />
+            <Route path="/booking" element={<Booking/>} />
+
           </Routes>
         </div>
         <Footer />
