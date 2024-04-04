@@ -6,7 +6,7 @@ This project is a flight booking program that allows users to book flights to de
 
 Prerequisites: MongoDB, Node.js
 
-In Visual Studio Code, right click the backend folder and select "Open in Tntegrated Terminal".
+In Visual Studio Code, right click the backend folder and select "Open in Integrated Terminal".
 
 Install the required modules by typing "npm i" or "npm install" (Requires Node.js).
 
