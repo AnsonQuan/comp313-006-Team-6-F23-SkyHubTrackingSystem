@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './SetOrigin.css';
 
 const SetOrigin = () => {
   const [city, setCity] = useState('');
@@ -25,6 +26,7 @@ const SetOrigin = () => {
 
   return (
     <div>
+      <div className="form-container">
       <h2>Set Origin</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="city">City:</label>
@@ -37,6 +39,7 @@ const SetOrigin = () => {
         />
         <button type="submit">Search</button>
       </form>
+      </div>
       {errorMessage && <p>{errorMessage}</p>}
       <div>
         {searchResult.map((result) => (
