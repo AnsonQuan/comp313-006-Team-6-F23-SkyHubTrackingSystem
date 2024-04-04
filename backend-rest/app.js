@@ -10,7 +10,7 @@ const PORT = 5000;
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://localhost:4200",
+    origin: "http://localhost:3000",
   })
 );
 app.listen(PORT, () =>

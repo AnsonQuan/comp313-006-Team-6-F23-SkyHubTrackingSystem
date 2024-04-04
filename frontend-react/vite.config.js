@@ -7,8 +7,13 @@ export default defineConfig({
 
   server: {
     proxy: {
-      "/api": {
+      "/graphql": {
         target: "http://localhost:4000/graphql",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      "/api": {
+        target: "http://localhost:5000", // Proxy requests with '/api' path to the REST API server
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
