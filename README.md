@@ -10,7 +10,7 @@ In Visual Studio Code, right click the backend folder and select "Open in Integr
 
 Install the required modules by typing "npm i" or "npm install" (Requires Node.js).
 
-Once the modules have been installed, you can now run the server by typing "npm run dev" (Requires MongoDB daemon to connect to server).
+Once the modules have been installed, you can now run the server by typing "npm run dev" (for backend-graphql), or "npm start" (for backend-rest) (Requires MongoDB daemon to connect to server).
 
 To run the client, install the required dependencies in the frontend folder and run it with the same commands as earlier.
 
