@@ -7,6 +7,12 @@ const FlightOriginDeal = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearch = () => {
+    const today = new Date();
+    const selectedDate = new Date(departureDate);
+    if (selectedDate < today) {
+      setErrorMessage('Please select a future departure date.');
+      return;
+    }
     fetch(`http://localhost:5000/flight-deal-by-origin/${originCode}`)
       .then(response => response.json())
       .then(data => {

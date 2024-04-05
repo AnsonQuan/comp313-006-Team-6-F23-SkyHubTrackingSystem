@@ -23,8 +23,8 @@ const Navbar = () => {
           <Link to="/contact"><FontAwesomeIcon icon={faPhone} /> Contact</Link>
           <Link className="login-item" to="/login"><FontAwesomeIcon icon={faSignInAlt} /> Login</Link>
           <Link to="/review"><FontAwesomeIcon icon={faStar} /> Review</Link>
-          <Link to="/track"><FontAwesomeIcon icon={faPlane} /> Track</Link>
-           <Link to="/booking"><FontAwesomeIcon icon={faPlaneDeparture } /> Booking</Link>
+          <Link to="/search"><FontAwesomeIcon icon={faPlane} /> Flights</Link>
+           <Link to="/flight-origin-deal"><FontAwesomeIcon icon={faPlaneDeparture } /> Deals</Link>
         </div>
         <div className="menu-icon" onClick={toggleMenu}>
           <FontAwesomeIcon icon={showMenu ? faTimes : faBars} />
