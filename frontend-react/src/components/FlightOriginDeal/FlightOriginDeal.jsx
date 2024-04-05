@@ -49,8 +49,7 @@ const FlightOriginDeal = () => {
             <p>Return Date: {result.returnDate}</p>
             <p>Total Price: {result.price.total} EUR</p>
             <div>
-              <a href={result.links.flightDates}>Flight Dates</a>
-              <a href={result.links.flightOffers}>Flight Offers</a>
+              <a href="/booking">Book</a>
             </div>
           </div>
         ))}
