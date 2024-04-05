@@ -60,6 +60,21 @@ app.get(`/flight-search`, (req, res) => {
     });
 });
 
+app.get(`/flight-deal-by-origin/:parameter`, (req, res) => {
+  const parameter = req.params.parameter;
+  // Find the cheapest flights from a specific origin
+  amadeus.shopping.flightDestinations
+    .get({
+      origin: parameter,
+    })
+    .then(function (response) {
+      res.send(response.result);
+    })
+    .catch(function (response) {
+      res.send(response);
+    });
+});
+
 app.post(`/flight-confirmation`, (req, res) => {
   const flight = req.body.flight;
   // Confirm availability and price

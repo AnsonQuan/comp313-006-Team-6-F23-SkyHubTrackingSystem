@@ -13,6 +13,7 @@ import Booking from './components/Booking/Booking';
 
 import './App.css';
 import SetOrigin from './components/SetOrigin/SetOrigin';
+import FlightOriginDeal from './components/FlightOriginDeal/FlightOriginDeal';
 
 
 
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/track" element={<Track/>} />
             <Route path="/booking" element={<Booking/>} />
             <Route path="/set-origin" element={<SetOrigin/>} />
+            <Route path="/flight-origin-deal" element={<FlightOriginDeal/>} />
           </Routes>
         </div>
         <Footer />
