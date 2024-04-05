@@ -7,6 +7,12 @@ const FlightOriginDeal = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearch = () => {
+    const today = new Date();
+    const selectedDate = new Date(departureDate);
+    if (selectedDate < today) {
+      setErrorMessage('Please select a future departure date.');
+      return;
+    }
     fetch(`http://localhost:5000/flight-deal-by-origin/${originCode}`)
       .then(response => response.json())
       .then(data => {
@@ -49,8 +55,7 @@ const FlightOriginDeal = () => {
             <p>Return Date: {result.returnDate}</p>
             <p>Total Price: {result.price.total} EUR</p>
             <div>
-              <a href={result.links.flightDates}>Flight Dates</a>
-              <a href={result.links.flightOffers}>Flight Offers</a>
+              <a href="/booking">Book</a>
             </div>
           </div>
         ))}
