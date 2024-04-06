@@ -22,11 +22,11 @@ const bookingSchema = new mongoose.Schema({
     required: true,
   },
   departureDate: {
-    type: Date,
+    type: String, // change it to String, original was Date
     required: true,
   },
   arrivalDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   ticketPrice: {

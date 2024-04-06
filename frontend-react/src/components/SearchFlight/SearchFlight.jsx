@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import './SearchFlight.css';
+import { useNavigate } from 'react-router-dom';
+
 const SearchFlight = () => {
+
+  const navigate = useNavigate();
+
   const [originCode, setOriginCode] = useState('');
   const [destinationCode, setDestinationCode] = useState('');
   const [departureDate, setDepartureDate] = useState('');
@@ -39,6 +44,10 @@ const SearchFlight = () => {
         setErrorMessage('An error occurred while fetching flight search results.');
       });
   };
+
+  const handleBookClick = (flightInfo) => {
+    navigate('/booking', {state: {flightInfo, originCode}});
+  }
 
   return (
     <div className="flight-search-container">
@@ -89,7 +98,7 @@ const SearchFlight = () => {
             <p>Last Ticketing Date: {result.lastTicketingDate}</p>
             <p>Duration: {result.duration}</p>
             <div>
-              <a href="/booking">Book</a>
+              <button onClick={() => handleBookClick(result)} >Book</button>
             </div>
           </div>
         ))}

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import './Booking.css';
+import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const ADD_BOOKING = gql`
   mutation AddBooking(
@@ -10,8 +12,8 @@ const ADD_BOOKING = gql`
     $seatNumber: String!,
     $departureAirport: String!,
     $arrivalAirport: String!,
-    $departureDate: Date!,
-    $arrivalDate: Date!,
+    $departureDate: String!,
+    $arrivalDate: String!,
     $ticketPrice: Float!,
     $status: String!
   ) {
@@ -27,43 +29,80 @@ const ADD_BOOKING = gql`
       status: $status
     ) {
       id
+      flightNumber
+      passengerName
+      seatNumber
+      departureAirport
+      arrivalAirport
+      departureDate
+      arrivalDate
+      ticketPrice
+      status
     }
   }
 `;
 
 const BookingForm = () => {
+  const location = useLocation();
+  const {flightInfo, originCode} = location.state || {};
   const [formData, setFormData] = useState({
     flightNumber: '',
     passengerName: '',
     seatNumber: '',
-    departureAirport: '',
-    arrivalAirport: '',
-    departureDate: '',
+    departureAirport: originCode || '',
+    arrivalAirport: flightInfo?.destination,
+    departureDate: flightInfo?.departureDate,
     arrivalDate: '',
-    ticketPrice: '',
+    ticketPrice: flightInfo.totalPrice,
     status: 'pending', // Default status
   });
 
   const [addBooking] = useMutation(ADD_BOOKING);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [lastBookingData, setLastBookingData] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // For booking a flight ticket 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await addBooking({ variables: { ...formData, ticketPrice: parseFloat(formData.ticketPrice) } });
-      alert('Booking successful!');
+      // alert('Booking successful!');
+      setLastBookingData(formData); // Save the last booking data
+      setShowConfirmation(true); // Show the confirmation dialog
     } catch (error) {
       console.error('Error creating booking:', error);
       alert('Error creating booking. Please try again.');
+  
     }
   };
+
+  // To book another ticket with last booking data 
+  const handleBookAnother = () => {
+    setFormData({
+      ...lastBookingData,
+      passengerName:'',
+      seatNumber:''
+    }); 
+    setShowConfirmation(false); // Hide the confirmation dialog
+  };
+
+  const handleCancel = () => {
+    setShowConfirmation(false); // Hide the confirmation dialog
+    navigate('/');
+  };
+
+
+
 
   return (
     <div className="booking-container">
       <h2>Book Your Flight</h2>
+      <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="flightNumber">Flight Number:</label>
         <input type="text" id="flightNumber" name="flightNumber" value={formData.flightNumber} onChange={handleChange} />
@@ -106,8 +145,16 @@ const BookingForm = () => {
       </div>
       {/* Add other form fields here */}
       <div className="form-group">
-        <button className="booking-button" onClick={handleSubmit}>Submit Booking</button>
+        <button className="booking-button" type='submit'>Submit Booking</button>
       </div>
+      </form>
+      {showConfirmation && (
+      <div className="confirmation-dialog">
+        <p>Do you want to book another ticket?</p>
+        <button onClick={handleBookAnother}>Yes</button>
+        <button onClick={handleCancel}>No</button>
+      </div>
+    )}
     </div>
   );
 };

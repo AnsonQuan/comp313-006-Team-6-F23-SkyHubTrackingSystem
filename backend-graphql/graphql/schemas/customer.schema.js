@@ -194,6 +194,20 @@ var queryType = new GraphQLObjectType({
           }
         },
       },
+      bookings:{
+        type: new GraphQLList(BookingType),
+        resolve: bookingResolver.getBookings
+      },
+      booking: {
+        type: BookingType,
+        args: {
+          id:{
+            name: "id",
+            type: GraphQLID,
+          }
+        },
+        resolve:bookingResolver.getBookingById
+      },
     };
   },
 });
