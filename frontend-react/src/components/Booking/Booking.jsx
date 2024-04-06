@@ -101,8 +101,8 @@ const BookingForm = () => {
 
   return (
     <div className="booking-container">
-      <h2>Book Your Flight</h2>
-      <form onSubmit={handleSubmit}>
+    <h2>Book Your Flight</h2>
+    <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="flightNumber">Flight Number:</label>
         <input type="text" id="flightNumber" name="flightNumber" value={formData.flightNumber} onChange={handleChange} />
@@ -117,15 +117,15 @@ const BookingForm = () => {
       </div>
       <div className="form-group">
         <label htmlFor="departureAirport">Departure Airport:</label>
-        <input type="text" id="departureAirport" name="departureAirport" value={formData.departureAirport} onChange={handleChange} />
+        <input type="text" id="departureAirport" name="departureAirport" value={formData.departureAirport} onChange={handleChange} readOnly />
       </div>
       <div className="form-group">
         <label htmlFor="arrivalAirport">Arrival Airport:</label>
-        <input type="text" id="arrivalAirport" name="arrivalAirport" value={formData.arrivalAirport} onChange={handleChange} />
+        <input type="text" id="arrivalAirport" name="arrivalAirport" value={formData.arrivalAirport} onChange={handleChange} readOnly />
       </div>
       <div className="form-group">
         <label htmlFor="departureDate">Departure Date:</label>
-        <input type="date" id="departureDate" name="departureDate" value={formData.departureDate} onChange={handleChange} />
+        <input type="date" id="departureDate" name="departureDate" value={formData.departureDate} onChange={handleChange} readOnly />
       </div>
       <div className="form-group">
         <label htmlFor="arrivalDate">Arrival Date:</label>
@@ -133,17 +133,16 @@ const BookingForm = () => {
       </div>
       <div className="form-group">
         <label htmlFor="ticketPrice">Ticket Price:</label>
-        <input type="number" id="ticketPrice" name="ticketPrice" value={formData.ticketPrice} onChange={handleChange} />
+        <input type="number" id="ticketPrice" name="ticketPrice" value={formData.ticketPrice} onChange={handleChange} readOnly />
       </div>
       <div className="form-group">
         <label>Status:</label>
-        <select name="status" value={formData.status} onChange={handleChange}>
+        <select name="status" value={formData.status} onChange={handleChange} readOnly>
           <option value="pending">Pending</option>
           <option value="confirmed">Confirmed</option>
           <option value="cancelled">Cancelled</option>
         </select>
       </div>
-      {/* Add other form fields here */}
       <div className="form-group">
         <button className="booking-button" type='submit'>Submit Booking</button>
       </div>
