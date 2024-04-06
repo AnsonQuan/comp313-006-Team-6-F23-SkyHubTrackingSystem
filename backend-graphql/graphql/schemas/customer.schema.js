@@ -7,6 +7,8 @@ var GraphQLID = require("graphql").GraphQLID;
 var GraphQLString = require("graphql").GraphQLString;
 var GraphQLInt = require("graphql").GraphQLInt;
 var GraphQLFloat = require("graphql").GraphQLFloat;
+var GraphQLBoolean = require("graphql").GraphQLBoolean;
+var jwt = require("jsonwebtoken");
 
 // Import models
 var user = require("../models/user");
@@ -124,6 +126,17 @@ var BookingType = new GraphQLObjectType({
   }),
 });
 
+// Login Response Type
+var loginResponseType = new GraphQLObjectType({
+  name: "LoginResponse",
+  fields: function () {
+    return {
+      token: { type: GraphQLString },
+      firstName: { type: GraphQLString }, //Anson's changes
+    };
+  },
+});
+
 // define Queries
 
 var queryType = new GraphQLObjectType({
@@ -157,6 +170,43 @@ var queryType = new GraphQLObjectType({
           },
         },
         resolve: reviewResolver.getReviewById,
+      },
+      isLoggedIn: {
+        type: GraphQLBoolean, // Change the type to Boolean
+        resolve: function (_, __, context) {
+          const authHeader = context.req.headers.authorization;
+
+          // If the Authorization header is not set, return false
+          if (!authHeader) {
+            return false;
+          }
+
+          // Extract the token from the Authorization header
+          const token = authHeader.split(" ")[1]; // Assumes "Bearer <token>"
+
+          // Verify the token
+          try {
+            jwt.verify(token, process.env.JWT_SECRET); // Make sure to use the correct secret
+            return true; // Token is valid, user is logged in
+          } catch (e) {
+            // If verification fails, return false
+            return false;
+          }
+        },
+      },
+      bookings:{
+        type: new GraphQLList(BookingType),
+        resolve: bookingResolver.getBookings
+      },
+      booking: {
+        type: BookingType,
+        args: {
+          id:{
+            name: "id",
+            type: GraphQLID,
+          }
+        },
+        resolve:bookingResolver.getBookingById
       },
     };
   },
@@ -193,6 +243,18 @@ var mutation = new GraphQLObjectType({
           },
         },
         resolve: userResolver.addUser,
+      },
+      login: {
+        type: loginResponseType,
+        args: {
+          email: { type: GraphQLString },
+          password: { type: GraphQLString },
+        },
+        resolve: userResolver.login,
+      },
+      logout: {
+        type: GraphQLString,
+        resolve: userResolver.logout,
       },
       addReview: {
         type: reviewType,
