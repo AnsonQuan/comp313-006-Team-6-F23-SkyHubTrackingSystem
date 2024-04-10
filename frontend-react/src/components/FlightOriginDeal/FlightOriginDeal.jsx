@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import './FlightOriginDeal.css';
+import { useNavigate } from 'react-router-dom';
 
 const FlightOriginDeal = () => {
+  const navigate = useNavigate();
   const [originCode, setOriginCode] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearch = () => {
-    const today = new Date();
-    const selectedDate = new Date(departureDate);
-    if (selectedDate < today) {
-      setErrorMessage('Please select a future departure date.');
-      return;
-    }
     fetch(`http://localhost:5000/flight-deal-by-origin/${originCode}`)
       .then(response => response.json())
       .then(data => {
@@ -29,6 +25,10 @@ const FlightOriginDeal = () => {
         setErrorMessage('An error occurred while fetching flight deals.');
       });
   };
+
+  const handleBookClick = (flightInfo) => {
+    navigate('/booking', {state: {flightInfo, originCode}});
+  }
 
   return (
     <div className="search-container">
@@ -55,7 +55,7 @@ const FlightOriginDeal = () => {
             <p>Return Date: {result.returnDate}</p>
             <p>Total Price: {result.price.total} EUR</p>
             <div>
-              <a href="/booking">Book</a>
+              <button onClick={() => handleBookClick(result)} >Book</button>
             </div>
           </div>
         ))}

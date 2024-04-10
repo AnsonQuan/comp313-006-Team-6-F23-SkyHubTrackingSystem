@@ -94,7 +94,6 @@ const SearchFlight = () => {
             <p>Destination: {result.destination}</p>
             <p>Departure Date: {result.departureDate}</p>
             <p>Total Price: {result.totalPrice} EUR</p>
-            <p>One Way: {result.oneWay ? 'Yes' : 'No'}</p>
             <p>Last Ticketing Date: {result.lastTicketingDate}</p>
             <p>Duration: {result.duration}</p>
             <div>
