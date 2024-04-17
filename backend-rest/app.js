@@ -2,6 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+
+const { googleGenAI } = require("@google/generative-ai");
+
+const genAI = googleGenAI(process.env.GOOGLE_APIKEY);
+
 dotenv.config();
 
 const app = express();
@@ -18,6 +23,21 @@ app.listen(PORT, () =>
   console.log(`Server is running on port: http://localhost:${PORT}`)
 );
 
+//Generative AI API
+app.post("/gemini", async (req, res) => {
+  console.log(req.body.history);
+  console.log(req.body.message);
+  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const chat = model.chat({ history: req.body.history });
+  const msg = req.body.message;
+
+  const result = await chat.send(msg);
+  const response = await result.response;
+  const text = response.text;
+  res.send(text);
+});
+
+//Flight Search API
 import Amadeus from "amadeus";
 const amadeus = new Amadeus({
   clientId: process.env.AMADEUS_APIKEY,
