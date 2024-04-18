@@ -2,12 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-
-const { googleGenAI } = require("@google/generative-ai");
-
-const genAI = googleGenAI(process.env.GOOGLE_APIKEY);
-
+import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
+const genAI = new GoogleGenerativeAI(process.env.GOOGLEAI_APIKEY);
 
 const app = express();
 const PORT = 5000;
@@ -28,13 +25,14 @@ app.post("/gemini", async (req, res) => {
   console.log(req.body.history);
   console.log(req.body.message);
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  const chat = model.chat({ history: req.body.history });
+  const chat = model.startChat({
+    history: req.body.history,
+  });
   const msg = req.body.message;
-
-  const result = await chat.send(msg);
+  const result = await chat.sendMessage(msg);
   const response = await result.response;
-  const text = response.text;
-  res.send(text);
+  const text = response.text();
+  console.log(text);
 });
 
 //Flight Search API

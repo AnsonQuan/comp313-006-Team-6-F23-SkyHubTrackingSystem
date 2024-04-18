@@ -15,7 +15,7 @@ import './App.css';
 import SetOrigin from './components/SetOrigin/SetOrigin';
 import FlightOriginDeal from './components/FlightOriginDeal/FlightOriginDeal';
 import SearchFlight from './components/SearchFlight/SearchFlight';
-
+import Chatbot from './components/Chatbot/Chatbot';
 
 
 const App = () => {
@@ -36,6 +36,7 @@ const App = () => {
             <Route path="/set-origin" element={<SetOrigin/>} />
             <Route path="/flight-origin-deal" element={<FlightOriginDeal/>} />
             <Route path="/search" element={<SearchFlight/>} />
+            <Route path="/chatbot" element={<Chatbot/>} />
           </Routes>
         </div>
         <Footer />
