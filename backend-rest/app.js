@@ -12,7 +12,7 @@ const PORT = 5000;
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], 
+    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
     credentials: true,
   })
 );
@@ -20,21 +20,6 @@ app.use(
 app.listen(PORT, () =>
   console.log(`Server is running on port: http://localhost:${PORT}`)
 );
-
-//Generative AI API
-app.post("/gemini", async (req, res) => {
-  console.log(req.body.history);
-  console.log(req.body.message);
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  const chat = model.startChat({
-    history: req.body.history,
-  });
-  const msg = req.body.message;
-  const result = await chat.sendMessage(msg);
-  const response = await result.response;
-  const text = response.text();
-  console.log(text);
-});
 
 //Flight Search API
 import Amadeus from "amadeus";
@@ -113,3 +98,39 @@ app.post(`/flight-confirmation`, (req, res) => {
       res.send(response);
     });
 });
+
+//GenAI API
+const generationConfig = {
+  stopSequences: ["red"],
+  maxOutputTokens: 200,
+  temperature: 0.9,
+  topP: 0.1,
+  topK: 16,
+};
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-pro",
+});
+
+const geminiChat = async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    console.log("prompt=", prompt);
+
+    const result = await model.generateContentStream(prompt);
+
+    let text = "";
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      console.log(chunkText);
+      text += chunkText;
+    }
+
+    res.status(200).json({ text });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+app.post("/gemini", geminiChat);

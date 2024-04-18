@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Chatbot = () => {
-    const [value, setValue] = useState("")
-    const [error, setError] = useState("");
-    const [chatHistory, setChatHistory] = useState([]);
+    const [prompt, setPrompt] = useState('');
+    const [response, setResponse] = useState('');
     
     const SurpriseOptions = [
         "I want to go somewhere warm", 
@@ -19,68 +18,44 @@ const Chatbot = () => {
         setValue(randomValue);
     }    
 
-    const getResponse = async () => {
-        if(!value) {
-            setError("Please enter a message");
-            return;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          const res = await axios.post('http://localhost:5000/gemini', { prompt });
+          setResponse(res.data.text);
+        } catch (error) {
+          console.error('Error:', error);
         }
-        try
-        {
-            const options = {
-                method : 'POST',
-                headers : {
-                    'Content-Type': 'application/json'
-                },
-                body : JSON.stringify({history: chatHistory, message: value})
-            }
-            const response = await fetch('http://localhost:5000/gemini', options);
-            const data = await response.text()
-            setChatHistory(oldChatHistory => [...oldChatHistory, {
-                role: "User",
-                parts: value
-            },
-                {
-                    role: "Assistant",
-                    part: data
-                }
-            ]);
-        }
-        catch
-        {
-            console.log(error);
-            setError("An error occurred");
-        }
-    }
+      };
 
     const clear = () => {
-        setValue("");
-        setChatHistory([]);
-        setError("");
+        setPrompt("");
+        setResponse("");
     }
     return (
-            <div className="query">
-                <h1>Welcome to the Chatbot App</h1>
-                <p>How can I help you today?
-                <button className="surprise" onClick={surprise} disabled={!chatHistory}>Surprise Me</button>
-                </p>
-                <div className='input_container'>
-                    <input
-                        value={value}
-                        type="text"
-                        placeholder='"I want to go somewhere warm"'
-                        onChange={(e) => setValue(e.target.value)}
-                        />
-                    {!error && <button onClick={getResponse}>Send</button>}
-                    {error && <button onClick={clear}>Clear</button>}
-                </div>
-                {error && <p className="error">{error}</p>}
-                {chatHistory.map ((chatItem, _index) => <div className='search-results'>
-                    <div key={""}>
-                        <p className='answer'>{chatItem.role} : {chatItem.parts}</p>
-                    </div>
-                </div>)}
+        <div>
+          <h2>Welcome to your AI Travel Assistant!</h2>
+          <h3>How can we help you today?</h3>
+            <button onClick={surprise}>Surprise me!</button>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="Enter your prompt..."
+              required
+            />
+            <button type="submit">Send</button>
+            <button type="button" onClick={clear}>Clear</button>
+          </form>
+          {response && (
+            <div>
+              <h3>Response:</h3>
+              <p>{response}</p>
             </div>
-    )
-};
+          )}
+        </div>
+      );
+    };
 
 export default Chatbot;
