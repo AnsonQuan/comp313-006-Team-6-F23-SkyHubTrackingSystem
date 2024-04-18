@@ -12,10 +12,11 @@ const PORT = 5000;
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://127.0.0.1:3000",
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], 
     credentials: true,
   })
 );
+
 app.listen(PORT, () =>
   console.log(`Server is running on port: http://localhost:${PORT}`)
 );

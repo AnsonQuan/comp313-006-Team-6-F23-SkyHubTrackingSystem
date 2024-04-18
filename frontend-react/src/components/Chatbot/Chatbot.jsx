@@ -59,6 +59,7 @@ const Chatbot = () => {
     }
     return (
             <div className="query">
+                <h1>Welcome to the Chatbot App</h1>
                 <p>How can I help you today?
                 <button className="surprise" onClick={surprise} disabled={!chatHistory}>Surprise Me</button>
                 </p>

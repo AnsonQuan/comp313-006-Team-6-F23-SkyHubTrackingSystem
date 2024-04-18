@@ -51,6 +51,7 @@ const Navbar = () => {
           <Link to="/review"><FontAwesomeIcon icon={faStar} /> Review</Link>
           <Link to="/search"><FontAwesomeIcon icon={faPlane} /> Flights</Link>
           <Link to="/flight-origin-deal"><FontAwesomeIcon icon={faPlaneDeparture } /> Deals</Link>
+          <Link to="/chatbot"><FontAwesomeIcon icon={faPlane} /> ChatBot</Link>
 
           {!isLoggedIn && <Link className="login-item" to="/login"><FontAwesomeIcon icon={faSignInAlt} /> Login</Link>}
           {isLoggedIn && (
