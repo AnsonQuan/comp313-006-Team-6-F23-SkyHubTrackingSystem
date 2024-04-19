@@ -21,6 +21,12 @@ app.listen(PORT, () =>
   console.log(`Server is running on port: http://localhost:${PORT}`)
 );
 
+if (!process.env.AMADEUS_APIKEY || !process.env.AMADEUS_APISECRET) {
+  console.error("Error: Please provide values for AMADEUS_APIKEY and AMADEUS_APISECRET in your .env file.");
+  process.exit(1); // Exit the application
+}
+
+
 //Flight Search API
 import Amadeus from "amadeus";
 const amadeus = new Amadeus({

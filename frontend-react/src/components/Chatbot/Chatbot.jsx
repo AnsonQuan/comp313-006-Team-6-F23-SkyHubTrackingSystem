@@ -15,7 +15,7 @@ const Chatbot = () => {
     
     const surprise = () => {
         const randomValue = SurpriseOptions[Math.floor(Math.random() * SurpriseOptions.length)];
-        setValue(randomValue);
+        setPrompt(randomValue);
     }    
 
     const handleSubmit = async (e) => {
